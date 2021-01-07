@@ -1,0 +1,146 @@
+class EntryPoint
+    {
+        static void Main(string[] args)
+        {
+
+         
+            //access to current director
+            //----------------------------------------DIRECTORY INFO---------------------------------------
+            DirectoryInfo currDir = new DirectoryInfo(".");
+
+            DirectoryInfo SomeOtherDirectory = new DirectoryInfo(@"C:\Users\sudha\Desktop");
+            Console.WriteLine(SomeOtherDirectory.FullName + " " + SomeOtherDirectory.Name + "" + SomeOtherDirectory.Parent);
+
+            //----------------------------------------CREATE and DELETE DIRECTORY---------------------------------------
+            // create directory 
+            Directory.CreateDirectory(@"C:\users\sudha\desktop\FileHandling");
+            DirectoryInfo dataDir = new DirectoryInfo(@"C:\users\sudha\desktop\FileHandling");
+
+            if (Directory.Exists(@"C:\users\sudha\desktop\FileHandling"))
+            {
+            }
+            //or
+            if (dataDir.Exists)
+            {
+
+            }
+            if (false)
+            {
+                Directory.Delete(@"C:\users\sudha\desktop\FileHandling");
+
+            }
+
+            //-------------------------------------------------------------------------------
+
+            string[] customers = { "Bob Smith", "Sally Smith", "Robert Smith" };
+
+            string FilePath = @"C:\users\sudha\desktop\FileHandling\test.txt";
+
+            if (!dataDir.Exists)
+            {
+                Directory.CreateDirectory(@"C:\users\sudha\desktop\FileHandling");
+
+            }
+
+            //--------------------------CREATE FILE ---------------------
+
+            //OR
+            if (!File.Exists(FilePath))
+            {
+                File.Create(FilePath);
+            }
+
+            //-------------------WRITE in file
+
+          //  File.WriteAllLines(FilePath, customers);
+
+            for (int i = 0; i < 10; i++)
+            {
+                File.WriteAllLines(FilePath, customers);
+            }
+
+
+            //-----------------------------READ File------------------
+
+            foreach (var item in File.ReadAllLines(FilePath))
+            {
+                Console.WriteLine(item);
+            }
+
+
+        
+
+                Console.WriteLine(Encoding.Default.GetString(File.ReadAllBytes(FilePath)));
+       
+
+            //------------------------------READ File Info---------------
+
+
+            //Directrory Info
+
+            FileInfo[] TextFiles = dataDir.GetFiles("*.txt", SearchOption.AllDirectories);
+
+            foreach (var item in TextFiles)
+            {
+                Console.WriteLine(item.Name);
+                Console.WriteLine(item.Length);
+            }
+
+
+            //-----------------------STream writer
+
+            string FilePath2 = @"C:\users\sudha\desktop\FileHandling\test2.txt";
+            StreamWriter sw = File.CreateText(FilePath2);
+
+            for (int i = 0; i < 10; i++)
+            {
+                sw.Write("This is test number. " + i + Environment.NewLine);
+            }
+
+            sw.Close();
+
+
+            // ------------------------stream reader---------------
+          
+            StreamReader sr = new StreamReader(FilePath2);
+            var NextChar_Peek = sr.Peek();
+
+            Console.WriteLine(Convert.ToChar(sr.Peek()));
+            Console.WriteLine(sr.ReadLine());
+            // once you call sr.readLine() the position automatically goes to the next line
+            
+            while(sr.ReadLine()!=null)
+            {
+                Console.Write(sr.ReadLine());
+            }
+            // Red word by word
+
+            var words = sr.ReadToEnd().Split(' ');
+            ///
+            ///
+
+            ////----------------------------File stream ----------------------------------------------------------------------
+            // To read or write bytes or array of bytes
+
+
+            FileStream fs = File.Open(FilePath, FileMode.Create);
+
+
+
+            //'''''''''''''''''''Write stream - byte array to a file
+            string RandomString = "This is a random string";
+
+            byte[] RandomStringArray = Encoding.Default.GetBytes(RandomString);
+
+
+            fs.Write(RandomStringArray, 0, RandomStringArray.Length);
+            
+            StreamWriter sw2 = new StreamWriter(fs);
+            fs.Close();
+          
+            ////--------------------------------------------------------------------------
+
+            
+            Console.Read();
+        }
+    }
